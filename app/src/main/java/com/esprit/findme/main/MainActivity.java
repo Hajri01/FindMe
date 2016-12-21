@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
-    FloatingActionButton fab_post;
+    FloatingActionButton fab_btn;
     private SessionManager session;
     private ArrayList<Circle> circles;
     private CircleDAO circleDao;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //fab menu settings
-        fab_post = (FloatingActionButton) findViewById(R.id.fab_post);
+        fab_btn = (FloatingActionButton) findViewById(R.id.fab_post);
 
 
         //initialisation
@@ -180,10 +180,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    /**
-     * Logging out the user. Will set isLoggedIn flag to false in shared
-     * preferences Clears the user data from sqlite users table
-     */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.fab_invite:
@@ -223,10 +219,10 @@ public class MainActivity extends AppCompatActivity {
     private void AllFloatingButtonActions(int position) {
         switch (position) {
             case 0:
-                fab_post.setImageDrawable(getResources().getDrawable(R.drawable.ic_post, null));
-                fab_post.show();
+                fab_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_post, null));
+                fab_btn.show();
 
-                fab_post.setOnClickListener(new View.OnClickListener() {
+                fab_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MainActivity.this, PostActivity.class);
@@ -238,19 +234,19 @@ public class MainActivity extends AppCompatActivity {
 
             case 1:
 
-                fab_post.setImageDrawable(getResources().getDrawable(R.drawable.ic_map, null));
-                fab_post.show();
+                fab_btn.setImageDrawable(getResources().getDrawable(R.drawable.ic_map, null));
+                fab_btn.show();
 
-                fab_post.setOnClickListener(new View.OnClickListener() {
+                fab_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
                         startActivity(intent);
                     }
                 });
-
+                break;
             default:
-                fab_post.hide();
+                fab_btn.hide();
         }
     }
 
