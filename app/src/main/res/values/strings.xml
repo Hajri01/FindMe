@@ -24,6 +24,7 @@
     <string name="hello_world">Hello World</string>
     <string name="server">172.16.130.126</string>
     <string name="title_activity_post">PostActivity</string>
+
     <!-- Hajri: home fragment xml dimensons -->
     <dimen name="card_margin">5dp</dimen>
     <dimen name="card_album_radius">0dp</dimen>

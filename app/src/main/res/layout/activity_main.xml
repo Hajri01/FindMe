@@ -38,59 +38,13 @@
 
     </android.support.v4.view.ViewPager>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_join"
+            android:id="@+id/fab_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/fab_circle"
-            android:layout_alignStart="@+id/fab_invite"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="@dimen/fab_margin_right"
-            android:elevation="6dp"
-            android:src="@drawable/ic_join_circle"
-            android:visibility="invisible"
-            app:pressedTranslationZ="12dp" />
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_post"
+            app:layout_anchorGravity="bottom|right|end" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/fab_invite"
-            android:layout_alignStart="@+id/fab_invite"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="@dimen/fab_margin_right"
-            android:elevation="6dp"
-            android:src="@drawable/ic_create_circle"
-            android:visibility="invisible"
-            app:pressedTranslationZ="12dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_invite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/fab_plus"
-            android:layout_alignStart="@+id/fab_plus"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="@dimen/fab_margin_right"
-            android:elevation="6dp"
-            android:src="@drawable/ic_invite_member"
-            android:visibility="invisible"
-            app:pressedTranslationZ="12dp" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginRight="@dimen/fab_margin_right"
-            android:elevation="6dp"
-            android:src="@drawable/ic_action_plus"
-            app:pressedTranslationZ="12dp" />
-    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

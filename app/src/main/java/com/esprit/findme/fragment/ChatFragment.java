@@ -50,7 +50,6 @@ public class ChatFragment extends Fragment implements OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         random = new Random();
-        fab_plus= (FloatingActionButton) view.findViewById(R.id.fab_plus);
         msg_edittext = (EditText) view.findViewById(R.id.msgET);
         msgListView = (ListView) view.findViewById(R.id.msgLV);
         sendButton = (ImageButton) view.findViewById(R.id.sendMessage);
