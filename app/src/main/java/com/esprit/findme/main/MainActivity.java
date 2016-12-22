@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.esprit.findme.activity.JoinCircleActivity;
 import com.esprit.findme.activity.MapsActivity;
 import com.esprit.findme.activity.PostActivity;
+import com.esprit.findme.activity.ProfileActivity;
 import com.esprit.findme.dao.CircleDAO;
 import com.esprit.findme.fragment.ChatFragment;
 import com.esprit.findme.fragment.HomeFragment;
@@ -182,6 +183,10 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.fab_profile:
+                Intent intent2 = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent2);
+                break;
             case R.id.fab_invite:
                 String title = getResources().getString(R.string.chooser_title);
                 Intent sendIntent = new Intent();
@@ -201,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fab_circle:
                 Intent intent1 = new Intent(MainActivity.this, AddCircleActivity.class);
                 startActivity(intent1);
+
         }
         return super.onOptionsItemSelected(item);
     }

@@ -25,7 +25,6 @@
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
-            android:singleLine="true"
             android:textColor="@color/input_login"
             android:textColorHint="@color/input_login_hint" />
 
@@ -38,7 +37,6 @@
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="10dp"
-            android:singleLine="true"
             android:textColor="@color/input_login"
             android:textColorHint="@color/input_login_hint" />
 

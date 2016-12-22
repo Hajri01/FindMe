@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Invite New Members"
+    <item
+        android:id="@+id/fab_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/fab_invite"
-        android:icon="@drawable/ic_invite_member"/>
+        android:title="Invite New Members" />
 
-    <item android:title="Join Circle"
+    <item
         android:id="@+id/fab_join"
-        android:icon="@drawable/ic_join_circle"/>
+        android:title="Join Circle" />
 
-    <item android:title="Create Circle"
+    <item
         android:id="@+id/fab_circle"
-        android:icon="@drawable/ic_create_circle"/>
-    <item android:title="Manage Circles"
+        android:title="Create Circle" />
+    <item
         android:id="@+id/fab_manage"
-        android:icon="@drawable/ic_manage_circle"/>
-    <item android:title="Logout"
+        android:title="Manage Circles" />
+    <item
         android:id="@+id/fab_logout"
-        android:icon="@drawable/ic_logout"/>
+        android:title="Logout" />
 </menu>
