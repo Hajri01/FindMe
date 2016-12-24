@@ -30,8 +30,7 @@ public class AddCircleActivity extends AppCompatActivity {
     private EditText inputTitle;
     private EditText inputCode;
     private EditText inputDescription;
-    private ProgressDialog pDialog;
-    private  int circle_id=0;
+    private int circle_id = 0;
     SessionManager session;
 
     @Override
@@ -44,19 +43,14 @@ public class AddCircleActivity extends AppCompatActivity {
         inputDescription = (EditText) findViewById(R.id.description);
         btnRegister = (Button) findViewById(R.id.btnRegister);
 
-        // Progress dialog
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(false);
         // Session manager
         session = new SessionManager(getApplicationContext());
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String title = inputTitle.getText().toString().trim();
-                //TODO 3 code must be unique and random
                 String code = inputCode.getText().toString().trim();
                 String description = inputDescription.getText().toString().trim();
-                //TODO 2 input control
                 if (!title.isEmpty() && !code.isEmpty()) {
                     registerCircle(title, description, code, session.getUserId());
 
@@ -75,9 +69,6 @@ public class AddCircleActivity extends AppCompatActivity {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
-        pDialog.setMessage("Registering ...");
-        showDialog();
-
         StringRequest strReq = new StringRequest(Request.Method.POST,
                 AppConfig.URL_AddCircle, new Response.Listener<String>() {
 
@@ -92,7 +83,7 @@ public class AddCircleActivity extends AppCompatActivity {
                     session.setCircleId(circle_id);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        Toast.makeText(getApplicationContext(), "Circle successfully created !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Circle created successfully !", Toast.LENGTH_LONG).show();
                         // Launch Mainactivity
                         Intent intent = new Intent(
                                 AddCircleActivity.this,
@@ -101,17 +92,14 @@ public class AddCircleActivity extends AppCompatActivity {
                         finish();
                     } else {
 
-                        // Error occurred in registration. Get the error
-                        // message
                         String errorMsg = jObj.getString("error_msg");
+                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
 
-                        Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                hideDialog();
+
 
             }
         }, new Response.ErrorListener() {
@@ -120,7 +108,7 @@ public class AddCircleActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(),
                         error.getMessage(), Toast.LENGTH_LONG).show();
-                hideDialog();
+
             }
         }) {
 
@@ -141,13 +129,4 @@ public class AddCircleActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-    private void showDialog() {
-        if (!pDialog.isShowing())
-            pDialog.show();
-    }
-
-    private void hideDialog() {
-        if (pDialog.isShowing())
-            pDialog.dismiss();
-    }
 }

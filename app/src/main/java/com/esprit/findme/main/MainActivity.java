@@ -1,6 +1,7 @@
 package com.esprit.findme.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -84,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         circlesArray = new String[]{};
         session = new SessionManager(getApplicationContext());
 
-
         //fab menu settings
         fab_btn = (FloatingActionButton) findViewById(R.id.fab_post);
 
@@ -92,15 +93,14 @@ public class MainActivity extends AppCompatActivity {
         //initialisation
         AllFloatingButtonActions(0);
         toolbar.setTitle("Home");
-
         toolbar.setTitleTextColor(0xFFFFFFFF);
-
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -206,15 +206,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.fab_circle:
                 Intent intent1 = new Intent(MainActivity.this, AddCircleActivity.class);
                 startActivity(intent1);
-
+                break;
+            case R.id.fab_logout:
+                logoutUser();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void logoutUser() {
-        session.setLogin(false);
-
-
+        session.getEditor().clear();
+        session.getEditor().commit();
         // Launching the login activity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);

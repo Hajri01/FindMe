@@ -39,6 +39,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="C:\Users\Med-Amine\Documents\GitHub\FindMe\app\build\intermediates\exploded-aar\com.mikhaellopez\circularimageview\3.0.2\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.2"
+        sha1="a8340f8c17337c864648c13abe1416d34c80ec14">
+        <dex dex="C:\Users\Med-Amine\Documents\GitHub\FindMe\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.mikhaellopez-circularimageview-3.0.2_f2dac4b2d8aa111babb3dcb9ed07d7f6e5177470\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Med-Amine\Documents\GitHub\FindMeLastV\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\10.0.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -133,7 +142,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="392173d9f748a346eda36b171c4d2ed6b107983d">
+        sha1="68fafbac21df2522ec3688ac491b071d332786dc">
         <dex dex="C:\Users\Med-Amine\Documents\GitHub\FindMe\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_c75acb70a26a572ac6a1bd4a64e7f5e68f7d7741\classes.dex" />
     </item>
     <item
@@ -340,7 +349,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.2"
-        sha1="fa04f7f8f8d03991eeb31f4a6d3c2b7ae511afd1">
+        sha1="b76f0f29d5c6b8f06d3d1d5d3172468ddaa5a1e7">
         <dex dex="C:\Users\Med-Amine\Documents\GitHub\FindMe\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_bdd39e4fba02d8901c5fcae1ed70d8718fc87568\classes.dex" />
     </item>
     <item

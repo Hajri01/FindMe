@@ -22,7 +22,7 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "AndroidHiveLogin";
+    private static final String PREF_NAME = "FindMeLogin";
 
     private static final String KEY_IS_LOGGEDIN = "isLoggedIn";
 
@@ -50,6 +50,14 @@ public class SessionManager {
         editor = pref.edit();
     }
 
+    public Editor getEditor() {
+        return editor;
+    }
+
+    public void setEditor(Editor editor) {
+        this.editor = editor;
+    }
+
     public void setLogin(boolean isLoggedIn) {
 
         editor.putBoolean(KEY_IS_LOGGEDIN, isLoggedIn);
@@ -57,7 +65,7 @@ public class SessionManager {
         // commit changes
         editor.commit();
 
-        Log.d(TAG, "User login session modified!");
+
     }
 
     public boolean isLoggedIn() {
@@ -131,4 +139,53 @@ public class SessionManager {
 
 
 
+
+    public void setUserName(String url) {
+
+        editor.putString("user_name", url);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getUserName() {
+
+        return pref.getString("user_name", "");
+    }
+    public void setUserEmail(String url) {
+
+        editor.putString("user_email", url);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getUserEmail() {
+
+        return pref.getString("user_email", "");
+    }
+    public void setUserPhone(String url) {
+
+        editor.putString("user_phone", url);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getUserPhone() {
+
+        return pref.getString("user_phone", "");
+    }
+    public void setUserPwd(String url) {
+
+        editor.putString("user_pwd", url);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getUserPwd() {
+
+        return pref.getString("user_pwd", "");
+    }
 }

@@ -6,9 +6,8 @@
     android:textSize="16dp"
     android:gravity="left"
     android:textColor="@color/white"
-    android:background="@color/colorPrimary"
+    android:background="@color/primary"
     style="?android:attr/spinnerDropDownItemStyle"
-    android:singleLine="true"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     />

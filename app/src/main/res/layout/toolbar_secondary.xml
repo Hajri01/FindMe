@@ -2,17 +2,15 @@
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_scrollFlags="scroll|enterAlways"
-    android:background="@color/colorPrimary">
+    android:background="@color/primary">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     <Button
-        android:id="@+id/BackBtn"
+        android:id="@+id/returnBtn"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/primary"
         android:text="Back"
         android:textColor="@color/white"
         />
@@ -21,7 +19,7 @@
             android:id="@+id/nextBtn"
             android:layout_width="80dp"
             android:layout_height="40dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/primary"
             android:text="Done"
             android:textColor="@color/white"
             android:layout_alignParentTop="true"

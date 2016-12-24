@@ -166,7 +166,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     * We need the full image path and the name for the image in this method
     * */
     public void uploadMultipart(int i , String news_id) {
-        //getting name for the image
+        //description
         String name = editText.getText().toString().trim();
 
         //getting the actual path of the image
@@ -265,14 +265,17 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             showFileChooser();
         }
         if (v == buttonUpload) {
-            addPost(session.getCircleId(), session.getUserId());
+            if (linearMain.getChildCount()>0)
+            {addPost(session.getCircleId(), session.getUserId());
 
 
 
             Intent intent = new Intent(
                     PostActivity.this,
                     MainActivity.class);
-            startActivity(intent);
+            startActivity(intent);}
+            else{Toast.makeText(this, "Your friends need at least one picture ",
+                    Toast.LENGTH_LONG).show();}
         }
     }
 

@@ -34,7 +34,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:scaleType="fitCenter" />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/writer"
@@ -44,7 +44,7 @@
                     android:layout_toEndOf="@+id/tvUserImage"
                     android:paddingBottom="5dp"
                     android:paddingLeft="2dp"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/primary_text"
                     android:textSize="15dp" />
 
                 <TextView
@@ -52,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/writer"
+                    android:textColor="@color/secondary_text"
                     android:layout_below="@+id/writer"
                     android:paddingLeft="2dp"
                     android:textSize="9dp"
@@ -73,7 +74,7 @@
                 android:layout_height="@dimen/album_cover_height"
                 android:layout_below="@id/content"
                 android:clickable="true"
-                android:scaleType="center" />
+                android:scaleType="centerInside" />
 
             <TextView
                 android:id="@+id/tvid_news"
@@ -81,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:textColor="@color/colorPrimary"
                 android:textSize="20dp"
                 android:visibility="invisible" />
 

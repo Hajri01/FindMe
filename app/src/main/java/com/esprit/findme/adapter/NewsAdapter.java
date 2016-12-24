@@ -65,7 +65,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         Picasso.with(mContext).load(news.getUrl()).into(holder.image);
         holder.writer.setText(news.getUser_name());
         holder.description.setText(news.getDescription());
-        Picasso.with(mContext).load(news.getPhoto()).into(holder.profileImage);
+        if (news.getPhoto().isEmpty()) {
+            holder.profileImage.setImageResource(R.drawable.ic_profile);
+        } else{
+            Picasso.with(mContext).load(news.getPhoto()).into(holder.profileImage);
+        }
+
         holder.created_at.setText(news.getCreated_at());
 
 

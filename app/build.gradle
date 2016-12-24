@@ -41,6 +41,6 @@ dependencies {
     compile 'net.gotev:uploadservice:2.1'
     compile 'com.library.tangxiaolv:telegramgallery:1.0.2'
     testCompile 'junit:junit:4.12'
-
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta2'
 }

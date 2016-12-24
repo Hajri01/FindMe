@@ -45,17 +45,15 @@ public class UserDao {
     private SessionManager session;
     private Activity activity;
 
-    public UserDao(Activity activity)
-    {
-        this.activity=activity;
+    public UserDao(Activity activity) {
+        this.activity = activity;
     }
 
-    public UserDao()
-    {
+    public UserDao() {
 
     }
 
-    public void registerUser(final String name, final String email,final String password,
+    public void registerUser(final String name, final String email, final String password,
                              final String number) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
@@ -70,10 +68,8 @@ public class UserDao {
         showDialog();
 
 
-
-
         StringRequest strReq = new StringRequest(Request.Method.POST,
-            AppConfig.URL_REGISTER, new Response.Listener<String>() {
+                AppConfig.URL_REGISTER, new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -85,24 +81,11 @@ public class UserDao {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-                        // User successfully stored in MySQL
-                        // Now store the user in sqlite
-                        //String uid = jObj.getString("uid");
-
-                        //JSONObject user = jObj.getJSONObject("user");
-                       // String name = user.getString("name");
-                        //String email = user.getString("email");
-                       // String created_at = user.getString("created_at");
-
-                        // Inserting row in users table
-                        //db.addUser(name, email, uid, created_at);
 
                         Toast.makeText(activity.getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 
                         // Launch login activity
-                        activity.getFragmentManager().beginTransaction().replace(R.id.container,new LoginFragment()).addToBackStack(null).commit();
-
-
+                        activity.getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).addToBackStack(null).commit();
 
 
                     } else {
@@ -145,6 +128,7 @@ public class UserDao {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
     public void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
@@ -175,21 +159,21 @@ public class UserDao {
                         int id = user.getInt("id");
                         String name = user.getString("name");
                         String email = user.getString("email");
-                        String created_at = user
-                                .getString("created_at");
-                        String photo = user
-                                .getString("photo");
-
+                        String created_at = user.getString("created_at");
+                        String photo = user.getString("photo");
+                        String phone = user.getString("phone");
                         // Create login session
 
                         session.setLogin(true);
                         session.setUserId(id);
                         session.setUserPhoto(photo);
-
-
+                        session.setUserEmail(email);
+                        session.setUserName(name);
+                        session.setUserPhone(phone);
+                        session.setUserPwd(password);
 
                         // Launch main activity
-                        Intent intent = new Intent(activity,MainActivity.class);
+                        Intent intent = new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
                     } else {
@@ -242,13 +226,12 @@ public class UserDao {
             pDialog.dismiss();
     }
 
-    public void updateUserImage (String email,String url ,String name)
-    {
+    public void updateUserImage(String email, String url, String name) {
         try {
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-            new MultipartUploadRequest(activity, uploadId,  AppConfig.URL_LOAD_PHOTO)
+            new MultipartUploadRequest(activity, uploadId, AppConfig.URL_LOAD_PHOTO)
                     .addFileToUpload(url, "image") //Adding file
                     .addParameter("name", name) //Adding text parameter to the request
                     .addParameter("email", email) //Adding text parameter to the request
@@ -260,7 +243,7 @@ public class UserDao {
         }
     }
 
-    public void updateUserPosition (final int id , final String position) {
+    public void updateUserPosition(final int id, final String position) {
 
         String tag_string_req = "req_position";
 
@@ -269,8 +252,6 @@ public class UserDao {
 
             @Override
             public void onResponse(String response) {
-
-
 
 
             }
@@ -306,9 +287,9 @@ public class UserDao {
             JSONArray array = jo.getJSONArray("users");
             for (int i = 0; i < array.length(); i++) {
                 JSONObject j = array.getJSONObject(i);
-                User user=new User(j);
-                if (user.getId()!=session.getUserId())
-                listFriends.add(user);
+                User user = new User(j);
+                if (user.getId() != session.getUserId())
+                    listFriends.add(user);
 
             }
 
