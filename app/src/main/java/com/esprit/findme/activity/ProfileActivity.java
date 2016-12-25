@@ -1,5 +1,6 @@
 package com.esprit.findme.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -8,17 +9,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.esprit.findme.R;
+import com.esprit.findme.dao.UserDao;
 import com.esprit.findme.main.MainActivity;
 import com.esprit.findme.utils.AppConfig;
 import com.esprit.findme.utils.SessionManager;
@@ -34,11 +38,13 @@ import java.util.UUID;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText name, email, phone;
     private CircularImageView image;
-    private ImageView icone;
     private SessionManager session;
     private Toolbar toolbar;
-    private Button updateBtn, backBtn;
+    private Button updateBtn, backBtn, showDialogBtn;
+    LinearLayout layout;
+    EditText oldP, newP, cp;
 
+    AlertDialog.Builder alertDialogBuilder;
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
     //storage permission code
@@ -47,10 +53,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Bitmap bitmap;
 
     //Uri to store the image uri
-    private Uri filePath ;
+    private Uri filePath;
+    private UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        userDao = new UserDao();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
@@ -59,45 +67,42 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         email = (EditText) findViewById(R.id.tv_edit_email);
         phone = (EditText) findViewById(R.id.tv_edit_phone);
         image = (CircularImageView) findViewById(R.id.iv_edit_image);
-        icone = (ImageView) findViewById(R.id.noImage);
         updateBtn = (Button) findViewById(R.id.nextBtn);
         backBtn = (Button) findViewById(R.id.returnBtn);
+        showDialogBtn = (Button) findViewById(R.id.btn_ch_pass);
 
         image.setOnClickListener(this);
         updateBtn.setOnClickListener(this);
         backBtn.setOnClickListener(this);
+        showDialogBtn.setOnClickListener(this);
 
         session = new SessionManager(this.getApplicationContext());
         name.setText(session.getUserName());
         email.setText(session.getUserEmail());
         phone.setText(session.getUserPhone());
-        if (session.getUserPhoto()!= "")
-        {
+        if (session.getUserPhoto() != "") {
             Picasso.with(this).load(session.getUserPhoto()).into(image);
         }
         email.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count){
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after){
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
-                if (email.getText().toString().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z]+.[a-zA-Z]{2,4}$"))
-                {
+            public void afterTextChanged(Editable s) {
+                if (email.getText().toString().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z]+.[a-zA-Z]{2,4}$")) {
 
-                }
-                else
-                {
+                } else {
                     email.setError("invalid Email");
                 }
             }
         });
+
     }
 
     @Override
@@ -106,26 +111,140 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
             startActivity(intent);
         }
-        if (view == image){
+        if (view == image) {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         }
-        if (view==updateBtn){
+        if (view == updateBtn) {
             String na = name.getText().toString().trim();
             String em = email.getText().toString().trim();
             String ph = phone.getText().toString().trim();
-            if (!na.isEmpty() && !em.isEmpty() && !ph.isEmpty() && filePath!=null)
-            {uploadMultipart();}
-            else {
+            if (!na.isEmpty() && !em.isEmpty() && !ph.isEmpty() && filePath != null) {
+                uploadMultipart();
+                session.getEditor().clear();
+                session.getEditor().commit();
+                // Launching the login activity
+                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else {
                 Toast.makeText(this,
                         "Please enter your details!", Toast.LENGTH_LONG)
                         .show();
             }
 
         }
+        if (view == showDialogBtn) {
+            ////////////////////////////////////////////start/////////////////////////////////////////
+            alertDialogBuilder = new AlertDialog.Builder(this);
+
+            layout = new LinearLayout(this);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setLayoutParams(parms);
+
+            layout.setGravity(Gravity.CLIP_VERTICAL);
+            layout.setPadding(2, 2, 2, 2);
+
+
+            oldP = new EditText(this);
+            oldP.setHint("Old password");
+            oldP.setTextSize(20);
+            layout.addView(oldP, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            alertDialogBuilder.setView(layout);
+            alertDialogBuilder.setCancelable(true);
+            oldP.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (oldP.getText().toString().matches(session.getUserPwd())) {
+                        layout.removeView(newP);
+                        layout.removeView(cp);
+                        newP = new EditText(ProfileActivity.this);
+                        newP.setHint("New password");
+                        newP.setTextSize(20);
+                        layout.addView(newP, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        cp = new EditText(ProfileActivity.this);
+                        cp.setHint("Confirm new password");
+                        cp.setTextSize(20);
+                        layout.addView(cp, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        cp.addTextChangedListener(new TextWatcher() {
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            }
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                if (cp.getText().toString().matches(newP.getText().toString())) {
+
+                                } else {
+                                    cp.setError("Invalid new password");
+                                }
+                            }
+                        });
+                    } else {
+                        oldP.setError("Incorrect password");
+                        layout.removeView(newP);
+                        layout.removeView(cp);
+                    }
+                }
+            });
+
+
+            // Setting Negative "Cancel" Button
+            alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    dialog.cancel();
+                }
+            });
+
+            // Setting Positive "OK" Button
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if ((!(cp.getText().toString().equals(""))) && (cp.getText().toString().matches(newP.getText().toString()))) {
+                        ///////////////////////////////// post to server /////////////////////////////////////////////////
+                        userDao.editPwd(session.getUserId(), cp.getText().toString());
+                        dialog.cancel();
+                        session.getEditor().clear();
+                        session.getEditor().commit();
+                        // Launching the login activity
+                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                }
+            });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            try {
+                alertDialog.show();
+            } catch (Exception e) {
+                // WindowManager$BadTokenException will be caught and the app would
+                // not display the 'Force Close' message
+                e.printStackTrace();
+            }
+            //////////////////////////////////////////END////////////////////////////////////////////////
+        }
     }
+
     public void uploadMultipart() {
 
 
@@ -187,6 +306,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
     //method to get the file path from uri
     public String getPath(Uri uri) {
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);

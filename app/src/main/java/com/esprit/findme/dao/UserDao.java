@@ -298,5 +298,41 @@ public class UserDao {
         }
     }
 
+    public void editPwd(final int id, final String pwd) {
+        // Tag used to cancel the request
+        String tag_string_req = "req_register";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_EDIT_PWD, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id));
+                params.put("password", pwd);
+                return params;
+            }
+
+        };
+
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+
 
 }

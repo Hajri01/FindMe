@@ -79,10 +79,6 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activity.PostActivity" />
-        <activity
-            android:name=".activity.PostDetailsActivity"
-            android:label="@string/title_activity_post_details"
-            android:theme="@style/AppTheme" />
         <activity android:name="com.tangxiaolv.telegramgallery.GalleryActivity" />
         <activity
             android:name=".activity.TransitDirectionActivity"

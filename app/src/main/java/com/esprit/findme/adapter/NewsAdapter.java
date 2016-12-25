@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.esprit.findme.R;
-import com.esprit.findme.activity.PostDetailsActivity;
 import com.esprit.findme.models.News;
 import com.squareup.picasso.Picasso;
 
@@ -74,15 +73,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.created_at.setText(news.getCreated_at());
 
 
-        holder.image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, PostDetailsActivity.class);
-                intent.putExtra("news", news);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override

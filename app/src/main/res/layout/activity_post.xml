@@ -27,32 +27,24 @@
     >
     <Button
         android:id="@+id/buttonChoose"
+        android:background="@color/accent"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select" />
-
-    <Button
-        android:id="@+id/buttonUpload"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload" />
-
-
+        android:text="pick an image" />
 
     <EditText
         android:id="@+id/editTextName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="What Do You Want To share" />
-    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
-        <LinearLayout
+        android:hint="What Do You Want To share" />
+
+        <ImageView
             android:id="@+id/linearMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
-    </ScrollView>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ImageView>
+
 </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>

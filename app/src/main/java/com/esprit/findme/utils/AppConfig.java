@@ -6,7 +6,7 @@ package com.esprit.findme.utils;
 
 public class AppConfig {
 
-    public static   String IP ="192.168.1.2" ;
+    public static   String IP ="192.168.1.12" ;
 
 
     // user
@@ -17,6 +17,7 @@ public class AppConfig {
     public static String URL_UPDATE_POSITION = "http://"+IP+"/findme/updateUserPosition.php";
     public static String URL_GET_NEWS_BY_USER = "http://"+IP+"/findme/news/getNewsByUser.php";
     public static String URL_EDIT_USER = "http://"+IP+"/findme/users/editprofile.php";
+    public static String URL_EDIT_PWD="http://"+IP+"/findme/users/editpass.php";
 
 
 

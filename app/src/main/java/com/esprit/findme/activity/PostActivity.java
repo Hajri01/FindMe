@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,11 +54,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private static String TAG = PostActivity.class.getSimpleName();
     //Declaring views
     private Button buttonChoose;
-    private Button buttonUpload;
-    private LinearLayout linearMain;
+    private Button buttonUpload, backBtn;
+    private ImageView linearMain;
     private EditText editText;
     private SessionManager session;
-    private int imgPos = 0;
+    private Toolbar toolbar;
+
     //Image request code
     private int PICK_IMAGE_REQUEST = 1;
 
@@ -68,7 +70,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     private Bitmap bitmap;
 
     //Uri to store the image uri
-    List<String> filePath = new ArrayList<String>();
+    private Uri filePath;
 
     //get news_id
     private int id_news = 0;
@@ -77,24 +79,29 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
+        toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
+        setSupportActionBar(toolbar);
         //Requesting storage permission
         requestStoragePermission();
 
         //Initializing views
         buttonChoose = (Button) findViewById(R.id.buttonChoose);
-        buttonUpload = (Button) findViewById(R.id.buttonUpload);
+        buttonUpload = (Button) findViewById(R.id.nextBtn);
         editText = (EditText) findViewById(R.id.editTextName);
-        linearMain = (LinearLayout) findViewById(R.id.linearMain);
+        linearMain = (ImageView) findViewById(R.id.linearMain);
+        backBtn = (Button) findViewById(R.id.returnBtn);
+
         //Setting clicklistener
         buttonChoose.setOnClickListener(this);
         buttonUpload.setOnClickListener(this);
+        backBtn.setOnClickListener(this);
+
 
         // Session manager
         session = new SessionManager(getApplicationContext());
     }
 
-    private void addPost(final int circle_id, final int id_user) {
+    private void addPost(final int id_user) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
 
@@ -115,11 +122,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                         JSONObject news = jObj.getJSONObject("news");
                         id_news = news.getInt("id");
 
-                        for (int i = 0; i < linearMain.getChildCount(); i++) {
-
-                            uploadMultipart(i,String.valueOf(id_news));
-                        }
-
+                        uploadMultipart(String.valueOf(id_news));
 
 
                     } else {
@@ -161,16 +164,31 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
-    /*
-    * This is the method responsible for image upload
-    * We need the full image path and the name for the image in this method
-    * */
-    public void uploadMultipart(int i , String news_id) {
+
+    //method to get the file path from uri
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
+
+    public void uploadMultipart(String news_id) {
         //description
         String name = editText.getText().toString().trim();
 
         //getting the actual path of the image
-        String path = filePath.get(i);
+        String path = getPath(filePath);
         //Uploading code
         try {
 
@@ -180,7 +198,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             new MultipartUploadRequest(this, uploadId, AppConfig.URL_UPLOAD_IMG_NEWS)
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("name", name) //Adding text parameter to the request
-                    .addParameter("news_id",news_id )
+                    .addParameter("news_id", news_id)
                     .setNotificationConfig(new UploadNotificationConfig())
                     .startUpload(); //Starting the upload
 
@@ -192,37 +210,27 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
     //method to show file chooser
     private void showFileChooser() {
-        GalleryConfig config = new GalleryConfig.Build()
-                .limitPickPhoto(4)
-                .singlePhoto(false)
-                .hintOfPick("You've reached the limit number of pics")
-                .filterMimeTypes(new String[]{"image/*"})
-                .build();
-        GalleryActivity.openActivity(PostActivity.this, PICK_IMAGE_REQUEST, config);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
-    //handling the image chooser activity result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        List<String> photos = (List<String>) data.getSerializableExtra(GalleryActivity.PHOTOS);
-        for (int k = 0; k < photos.size(); k++) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-            bitmap = BitmapFactory.decodeFile(photos.get(k));
-            filePath.add(photos.get(k));
-            ImageView imageView = new ImageView(getApplicationContext());
-            LinearLayout.LayoutParams layoutParams =
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT);
-            imageView.setLayoutParams(layoutParams);
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            imageView.setPadding(0, 0, 0, 10);
-            imageView.setAdjustViewBounds(true);
-            imageView.setImageBitmap(bitmap);
-            linearMain.addView(imageView);
-            imgPos = imgPos + 1;
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            filePath = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                linearMain.setImageBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
 
     //Requesting permission
@@ -265,17 +273,20 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             showFileChooser();
         }
         if (v == buttonUpload) {
-            if (linearMain.getChildCount()>0)
-            {addPost(session.getCircleId(), session.getUserId());
-
-
-
-            Intent intent = new Intent(
-                    PostActivity.this,
-                    MainActivity.class);
-            startActivity(intent);}
-            else{Toast.makeText(this, "Your friends need at least one picture ",
-                    Toast.LENGTH_LONG).show();}
+            if (filePath != null) {
+                addPost(session.getUserId());
+                Intent intent = new Intent(
+                        PostActivity.this,
+                        MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Your friends need at least one picture ",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+        if (v == backBtn) {
+            Intent intent = new Intent(PostActivity.this, MainActivity.class);
+            startActivity(intent);
         }
     }
 

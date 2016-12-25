@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,25 +27,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddCircleActivity extends AppCompatActivity {
-    private Button btnRegister;
+    private Button btnRegister,updateBtn, backBtn;
     private EditText inputTitle;
     private EditText inputCode;
     private EditText inputDescription;
     private int circle_id = 0;
     SessionManager session;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_circle);
-
+        toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
+        setSupportActionBar(toolbar);
         inputTitle = (EditText) findViewById(R.id.title);
         inputCode = (EditText) findViewById(R.id.code);
         inputDescription = (EditText) findViewById(R.id.description);
         btnRegister = (Button) findViewById(R.id.btnRegister);
-
+        updateBtn = (Button) findViewById(R.id.nextBtn);
+        backBtn = (Button) findViewById(R.id.returnBtn);
         // Session manager
         session = new SessionManager(getApplicationContext());
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(
+                        AddCircleActivity.this,
+                        MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        updateBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                String title = inputTitle.getText().toString().trim();
+                String code = inputCode.getText().toString().trim();
+                String description = inputDescription.getText().toString().trim();
+                if (!title.isEmpty() && !code.isEmpty()) {
+                    registerCircle(title, description, code, session.getUserId());
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter your details!", Toast.LENGTH_LONG)
+                            .show();
+                }
+            }
+        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

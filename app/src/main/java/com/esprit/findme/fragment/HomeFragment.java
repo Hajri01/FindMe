@@ -1,20 +1,14 @@
 package com.esprit.findme.fragment;
 
 
-import android.content.res.Resources;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -23,11 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.esprit.findme.R;
-import com.esprit.findme.adapter.ImageAdapter;
 import com.esprit.findme.adapter.NewsAdapter;
-import com.esprit.findme.dao.ImageDao;
 import com.esprit.findme.dao.NewsDao;
-import com.esprit.findme.models.Image;
 import com.esprit.findme.models.News;
 import com.esprit.findme.utils.AppConfig;
 import com.esprit.findme.utils.SessionManager;
