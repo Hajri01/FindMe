@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -18,9 +18,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp">
 
             <RelativeLayout
@@ -28,21 +28,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="5dp">
-                <com.mikhaellopez.circularimageview.CircularImageView
+
+                <ImageView
                     android:id="@+id/tvUserImage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    app:civ_border_color="@color/accent"
-                    app:civ_border_width="4dp"
-                    app:civ_shadow="true"
-                    android:clickable="true"
-                    app:civ_shadow_radius="10"
-                    app:civ_shadow_color="@color/primary"
-                    android:layout_marginBottom="8dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:scaleType="centerCrop">
-                </com.mikhaellopez.circularimageview.CircularImageView>
+                    android:layout_marginBottom="6dp"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/writer"
@@ -60,9 +54,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/writer"
-                    android:textColor="@color/secondary_text"
                     android:layout_below="@+id/writer"
                     android:paddingLeft="2dp"
+                    android:textColor="@color/secondary_text"
                     android:textSize="9dp"
 
                     />
@@ -83,15 +77,6 @@
                 android:layout_below="@id/content"
                 android:clickable="true"
                 android:scaleType="centerCrop" />
-
-            <TextView
-                android:id="@+id/tvid_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:textSize="20dp"
-                android:visibility="invisible" />
 
 
         </RelativeLayout>

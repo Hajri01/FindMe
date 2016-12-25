@@ -40,7 +40,9 @@
                 android:hint="Choose a Code For Your Circle"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
-
+            <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" >
             <EditText
                 android:id="@+id/description"
                 android:layout_width="fill_parent"
@@ -50,7 +52,7 @@
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
 
-
+            </ScrollView>
 
             <Button
                 android:id="@+id/btnRegister"

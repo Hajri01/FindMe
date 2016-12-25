@@ -6,7 +6,7 @@ package com.esprit.findme.utils;
 
 public class AppConfig {
 
-    public static   String IP ="192.168.1.12" ;
+    public static   String IP ="192.168.1.2" ;
 
 
     // user
@@ -15,7 +15,6 @@ public class AppConfig {
     public static String URL_LOAD_PHOTO = "http://"+IP+"/findme/updateUserImage.php";
     public static String URL_GET_USERS = "http://"+IP+"/findme/getUserByCircle.php";
     public static String URL_UPDATE_POSITION = "http://"+IP+"/findme/updateUserPosition.php";
-    public static String URL_GET_NEWS_BY_USER = "http://"+IP+"/findme/news/getNewsByUser.php";
     public static String URL_EDIT_USER = "http://"+IP+"/findme/users/editprofile.php";
     public static String URL_EDIT_PWD="http://"+IP+"/findme/users/editpass.php";
 
@@ -29,13 +28,10 @@ public class AppConfig {
 
     //NEWS
 
-    public static String URL_UPLOAD_IMG_NEWS = "http://"+IP+"/findme/news/upload.php";
 
     public static String URL_ADD_NEWS = "http://"+IP+"/findme/news/addNews.php";
 
     public static String URL_GET_NEWS = "http://"+IP+"/findme/news/getAllCircleNews";
-
-    public static String URL_GET_IMAGES_BY_NEWS_ID  = "http://"+IP+"/findme/news/image/getImages.php";
 
     public static String URL_GET_CIRCLES = "http://"+IP+"/findme/news/testCircles.php";
 

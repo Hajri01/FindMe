@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -153,6 +154,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             oldP = new EditText(this);
             oldP.setHint("Old password");
             oldP.setTextSize(20);
+            oldP.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
             layout.addView(oldP, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             alertDialogBuilder.setView(layout);
             alertDialogBuilder.setCancelable(true);
@@ -174,10 +176,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         newP = new EditText(ProfileActivity.this);
                         newP.setHint("New password");
                         newP.setTextSize(20);
+                        newP.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
                         layout.addView(newP, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                         cp = new EditText(ProfileActivity.this);
                         cp.setHint("Confirm new password");
                         cp.setTextSize(20);
+                        cp.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
                         layout.addView(cp, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                         cp.addTextChangedListener(new TextWatcher() {
 

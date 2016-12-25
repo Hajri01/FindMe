@@ -18,9 +18,7 @@
     <string name="facebook_app_id">1815145358723202</string>
     <string name="fb_login_protocol_scheme">fb1815145358723202</string>
     <string name="btn_save">SAVE</string>
-    <string name="chooser_title">Hi would you join me on This
-        app so we can stay in touch
-        if you do, here is our circle code:  </string>
+    <string name="chooser_title">Hi This is our circle code:</string>
     <string name="hello_world">Hello World</string>
     <string name="server">172.16.130.126</string>
     <string name="title_activity_post">PostActivity</string>

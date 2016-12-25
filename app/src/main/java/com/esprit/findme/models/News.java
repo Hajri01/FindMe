@@ -13,7 +13,7 @@ public class News implements Serializable {
     private int id;
     private String user_name;
     private String photo;
-    private String description;
+    private String content;
     private String url;
     private String created_at;
 
@@ -25,7 +25,7 @@ public class News implements Serializable {
         this.id = id;
         this.user_name = user_name;
         this.photo = photo;
-        this.description = description;
+        this.content = description;
         this.url = url;
         this.created_at = created_at;
     }
@@ -35,7 +35,7 @@ public class News implements Serializable {
         user_name = j.optString("user_name");
         photo = j.optString("photo");
         url = j.optString("url");
-        description = j.optString("description");
+        content = j.optString("content");
         created_at = j.optString("when");
 
     }
@@ -57,11 +57,11 @@ public class News implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return content;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.content = description;
     }
 
     public String getUrl() {

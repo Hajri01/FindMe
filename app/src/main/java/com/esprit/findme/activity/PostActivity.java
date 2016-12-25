@@ -101,68 +101,34 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         session = new SessionManager(getApplicationContext());
     }
 
-    private void addPost(final int id_user) {
-        // Tag used to cancel the request
-        String tag_string_req = "req_register";
+    private void addPost()
+    {
+        //description
+        String name = editText.getText().toString().trim();
 
+        //getting the actual path of the image
+        String path = getPath(filePath);
+        //Uploading code
+        try {
 
-        StringRequest strReq = new StringRequest(Request.Method.POST,
-                AppConfig.URL_ADD_NEWS, new Response.Listener<String>() {
+            String uploadId = UUID.randomUUID().toString();
 
-            @Override
-            public void onResponse(String response) {
+            //Creating a multi part request
+            new MultipartUploadRequest(this, uploadId, AppConfig.URL_ADD_NEWS)
+                    .addFileToUpload(path, "image") //Adding file
+                    .addParameter("content", editText.getText().toString()) //Adding text parameter to the request
+                    .addParameter("circle_id", String.valueOf(session.getCircleId()))
+                    .addParameter("id_user", String.valueOf(session.getUserId()))
+                    .setNotificationConfig(new UploadNotificationConfig())
+                    .startUpload(); //Starting the upload
 
+        } catch (Exception exc)
+        {
+            //Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
-                try {
-                    JSONObject jObj = new JSONObject(response);
-                    boolean error = jObj.getBoolean("error");
-                    if (!error) {
-
-                        Toast.makeText(getApplicationContext(), "post added successfully !", Toast.LENGTH_LONG).show();
-                        JSONObject news = jObj.getJSONObject("news");
-                        id_news = news.getInt("id");
-
-                        uploadMultipart(String.valueOf(id_news));
-
-
-                    } else {
-
-                        // Error occurred in registration. Get the error
-                        // message
-                        String errorMsg = jObj.getString("error_msg");
-                       /* Toast.makeText(getApplicationContext(),
-                                errorMsg, Toast.LENGTH_LONG).show();*/
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),
-                        error.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        }) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
-
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("circle_id", String.valueOf(session.getCircleId()));
-                params.put("id_user", String.valueOf(id_user));
-                return params;
-            }
-
-        };
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
+
 
 
     //method to get the file path from uri
@@ -182,31 +148,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         return path;
     }
-
-    public void uploadMultipart(String news_id) {
-        //description
-        String name = editText.getText().toString().trim();
-
-        //getting the actual path of the image
-        String path = getPath(filePath);
-        //Uploading code
-        try {
-
-            String uploadId = UUID.randomUUID().toString();
-
-            //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, AppConfig.URL_UPLOAD_IMG_NEWS)
-                    .addFileToUpload(path, "image") //Adding file
-                    .addParameter("name", name) //Adding text parameter to the request
-                    .addParameter("news_id", news_id)
-                    .setNotificationConfig(new UploadNotificationConfig())
-                    .startUpload(); //Starting the upload
-
-        } catch (Exception exc) {
-            //Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     //method to show file chooser
     private void showFileChooser() {
@@ -274,7 +215,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == buttonUpload) {
             if (filePath != null) {
-                addPost(session.getUserId());
+                addPost();
                 Intent intent = new Intent(
                         PostActivity.this,
                         MainActivity.class);

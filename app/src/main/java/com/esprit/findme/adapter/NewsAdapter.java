@@ -26,14 +26,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView image;
         public TextView writer;
-        public TextView idNews;
         public TextView description;
         public TextView created_at;
         public ImageView profileImage;
 
         public MyViewHolder(View view) {
             super(view);
-            idNews = (TextView) view.findViewById(R.id.tvid_news);
             image = (ImageView) view.findViewById(R.id.news_image);
             writer = (TextView) view.findViewById(R.id.writer);
             description = (TextView) view.findViewById(R.id.content);
@@ -60,7 +58,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final News news = newsList.get(position);
-        holder.idNews.setText(String.valueOf(news.getId()));
         Picasso.with(mContext).load(news.getUrl()).into(holder.image);
         holder.writer.setText(news.getUser_name());
         holder.description.setText(news.getDescription());
