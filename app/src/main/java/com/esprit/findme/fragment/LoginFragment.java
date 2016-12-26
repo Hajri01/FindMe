@@ -15,12 +15,14 @@ import com.esprit.findme.R;
 import com.esprit.findme.dao.UserDao;
 import com.esprit.findme.main.MainActivity;
 import com.esprit.findme.utils.SessionManager;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -42,6 +44,15 @@ public class LoginFragment extends Fragment {
     private SessionManager session;
     private UserDao userDao;
     private CallbackManager callbackManager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
@@ -51,12 +62,12 @@ public class LoginFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        callbackManager = CallbackManager.Factory.create();
         inputEmail = (EditText) view.findViewById(R.id.email);
         inputPassword = (EditText) view.findViewById(R.id.password);
         btnLogin = (Button) view.findViewById(R.id.btnLogin);
         btnLinkToRegister = (Button) view.findViewById(R.id.btnLinkToRegisterScreen);
         loginfacebook =(LoginButton) view.findViewById(R.id.login_button);
+        loginfacebook.setFragment(this);
         userDao=new UserDao(getActivity());
 
         // Progress dialog
@@ -82,28 +93,25 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "name,email");
-                //,birthday,hometown,number,picture.type(large)
+
                 GraphRequest request =GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject me, GraphResponse response) {
                                 if (response.getError() != null) {
-                                    // handle error
+                                    inputEmail.setText(response.getError().toString());
                                 } else {
-                                        String email = me.optString("email");
-                                    inputEmail.setText(email);
-                                    }
+                                    String email = me.optString("email");
+                                   // inputEmail.setText(email);
+                                    //inputPassword.setText("hello");
 
-                                    // send email and id to your web server
-                                    // userDao.registerUser(me.optString("name"),me.optString("email"),password,me.optString("city")
-                                          //  ,number,me.optString("birthday"),photo);
-
+                                }
 
 
                             }
                         });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,number,picture");
                 request.setParameters(parameters);
                 request.executeAsync();
             }
@@ -152,6 +160,7 @@ public class LoginFragment extends Fragment {
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode,resultCode,data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 

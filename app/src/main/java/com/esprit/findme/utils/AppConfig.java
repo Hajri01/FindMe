@@ -6,7 +6,7 @@ package com.esprit.findme.utils;
 
 public class AppConfig {
 
-    public static   String IP ="192.168.1.4" ;
+    public static   String IP ="192.168.1.134" ;
 
 
     // user
