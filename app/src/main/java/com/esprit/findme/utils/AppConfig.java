@@ -23,7 +23,6 @@ public class AppConfig {
 
     // circles
     public static String URL_AddCircle = "http://"+IP+"/findme/circle.php";
-
     public static String URL_JOIN_CIRCLE = "http://"+IP+"/findme/inviter.php";
 
     //NEWS

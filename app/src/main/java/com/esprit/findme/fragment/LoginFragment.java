@@ -74,6 +74,7 @@ public class LoginFragment extends Fragment {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(getActivity(), MainActivity.class);
             getActivity().startActivity(intent);
+            getActivity().finish();
         }
 
         //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile","email"));
