@@ -5,7 +5,9 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp" >
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -14,6 +16,18 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" >
+
+        <TextView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:textAlignment="center"
+            android:text="FindMe"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="60px"
+            />
 
 
         <EditText
@@ -26,7 +40,10 @@
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColor="@color/input_login"
-            android:textColorHint="@color/input_login_hint" />
+            android:textColorHint="@color/input_login_hint"
+            android:paddingLeft="15dp"
+            android:drawablePadding="10dp"/>
+          <!--  android:drawableLeft="@drawable/ic_mail"-->
 
         <EditText
             android:id="@+id/password"
@@ -38,9 +55,12 @@
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/input_login"
-            android:textColorHint="@color/input_login_hint" />
+            android:textColorHint="@color/input_login_hint"
+            android:paddingLeft="15dp"
+            android:drawablePadding="10dp"/>
+        <!--  android:drawableLeft="@drawable/ic_pass"/-->
 
-        <!-- Login Button -->
+      <!-- Login Button -->
 
         <Button
             android:id="@+id/btnLogin"
@@ -108,8 +128,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="10dp"
             style="@style/FacebookLoginButton"/>
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>
