@@ -43,8 +43,9 @@
         android:id="@+id/join_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/accent"
+        android:background="@color/primary"
         android:layout_marginTop="10dp"
+        android:textSize="20sp"
         android:text="Join"
         android:textColor="@color/white"/>
     </LinearLayout>

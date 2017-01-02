@@ -1,6 +1,5 @@
 package com.esprit.findme.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.esprit.findme.main.MainActivity;
 import com.esprit.findme.utils.AppConfig;
-import com.esprit.findme.utils.AppController;
+import com.esprit.findme.AppController;
 import com.esprit.findme.R;
 import com.esprit.findme.utils.SessionManager;
 
@@ -31,6 +31,7 @@ public class AddCircleActivity extends AppCompatActivity {
     private EditText inputTitle;
     private EditText inputCode;
     private EditText inputDescription;
+    private TextView titre;
     private int circle_id = 0;
     SessionManager session;
     private Toolbar toolbar;
@@ -46,32 +47,18 @@ public class AddCircleActivity extends AppCompatActivity {
         inputDescription = (EditText) findViewById(R.id.description);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         updateBtn = (Button) findViewById(R.id.nextBtn);
+        updateBtn.setVisibility(View.INVISIBLE);
         backBtn = (Button) findViewById(R.id.returnBtn);
+        titre= (TextView) findViewById(R.id.secondTitre);
+        titre.setText("Add New Circle");
         // Session manager
         session = new SessionManager(getApplicationContext());
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(
-                        AddCircleActivity.this,
-                        MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
-        updateBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                String title = inputTitle.getText().toString().trim();
-                String code = inputCode.getText().toString().trim();
-                String description = inputDescription.getText().toString().trim();
-                if (!title.isEmpty() && !code.isEmpty()) {
-                    registerCircle(title, description, code, session.getUserId());
 
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter your details!", Toast.LENGTH_LONG)
-                            .show();
-                }
-            }
-        });
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

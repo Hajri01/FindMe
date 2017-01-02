@@ -1,12 +1,10 @@
 package com.esprit.findme.activity;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -15,38 +13,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.esprit.findme.R;
-import com.esprit.findme.main.MainActivity;
+import com.esprit.findme.services.RefreshService;
 import com.esprit.findme.utils.AppConfig;
-import com.esprit.findme.utils.AppController;
 import com.esprit.findme.utils.SessionManager;
-import com.tangxiaolv.telegramgallery.GalleryActivity;
-import com.tangxiaolv.telegramgallery.GalleryConfig;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public class PostActivity extends AppCompatActivity implements View.OnClickListener {
@@ -216,18 +197,16 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         if (v == buttonUpload) {
             if (filePath != null) {
                 addPost();
-                Intent intent = new Intent(
-                        PostActivity.this,
-                        MainActivity.class);
-                startActivity(intent);
+                Intent serviceIntent = new Intent(PostActivity.this, RefreshService.class);
+                startService(serviceIntent);
+                //onBackPressed();
             } else {
                 Toast.makeText(this, "Your friends need at least one picture ",
                         Toast.LENGTH_LONG).show();
             }
         }
         if (v == backBtn) {
-            Intent intent = new Intent(PostActivity.this, MainActivity.class);
-            startActivity(intent);
+            onBackPressed();
         }
     }
 

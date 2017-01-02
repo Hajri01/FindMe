@@ -10,7 +10,7 @@
         android:layout_gravity="right"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:popupBackground="@color/accent"
+        android:popupBackground="@color/primary"
         />
 
 </android.support.v7.widget.Toolbar>

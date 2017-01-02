@@ -16,7 +16,7 @@
         android:required="true" />
 
     <application
-        android:name=".utils.AppController"
+        android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,7 +25,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -79,12 +78,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".activity.PostActivity" />
+        <activity android:name=".activity.LocalisationActivity" />
         <activity android:name="com.tangxiaolv.telegramgallery.GalleryActivity" />
-        <activity
-            android:name=".activity.TransitDirectionActivity"
-            android:label="@string/title_activity_directions"
-            android:theme="@style/AppTheme" />
         <activity android:name=".activity.ProfileActivity"></activity>
+        <service android:name=".services.RefreshService"></service>
     </application>
 
 </manifest>

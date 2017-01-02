@@ -36,6 +36,8 @@ public class SessionManager {
 
     private static final String NEWS_ID = "news_id";
 
+    private static final String USER_POSITION = "user_position";
+
     public int DefaultId = 0;
 
     public int DefaultCircleId =0;
@@ -43,6 +45,8 @@ public class SessionManager {
     public String DefaultCircleCode ="";
 
     public int DefaultIdNews = 0;
+
+    public int DefaultPosition = 0;
 
     public SessionManager(Context context) {
         this._context = context;
@@ -187,5 +191,18 @@ public class SessionManager {
     public String getUserPwd() {
 
         return pref.getString("user_pwd", "");
+    }
+
+    public void setUserPosition(String position) {
+
+        editor.putString("user_position", position);
+
+        // commit changes
+        editor.commit();
+    }
+
+    public String getUserPosition() {
+
+        return pref.getString("user_position", "");
     }
 }

@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.esprit.findme.R;
@@ -20,7 +21,9 @@ public class JoinCircleActivity extends AppCompatActivity {
     Button joinBtn;
     InvitationDao invitDao;
      private Toolbar toolbar;
-    private Button updateBtn, backBtn;
+    private Button  backBtn,updateBtn;
+    private TextView titre;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +32,17 @@ public class JoinCircleActivity extends AppCompatActivity {
         joinBtn = (Button) findViewById(R.id.join_btn);
         toolbar = (Toolbar) findViewById(R.id.secondary_toolbar);
         setSupportActionBar(toolbar);
-
-        updateBtn = (Button) findViewById(R.id.nextBtn);
         backBtn = (Button) findViewById(R.id.returnBtn);
+        updateBtn = (Button) findViewById(R.id.nextBtn);
+        updateBtn.setVisibility(View.INVISIBLE);
         // Session manager
         session = new SessionManager(getApplicationContext());
         invitDao = new InvitationDao(JoinCircleActivity.this);
-        updateBtn.setVisibility(View.INVISIBLE);
-        updateBtn.setClickable(false);
+        titre= (TextView) findViewById(R.id.secondTitre);
+        titre.setText("Join New Circle");
         backBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent = new Intent(
-                        JoinCircleActivity.this,
-                        MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
         joinBtn.setOnClickListener(new View.OnClickListener() {

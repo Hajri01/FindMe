@@ -1,13 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.CoordinatorLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/bg_login"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp" >
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -35,30 +36,29 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/back"
+
             android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textColor="@color/input_login"
             android:textColorHint="@color/input_login_hint"
             android:paddingLeft="15dp"
-            android:drawablePadding="10dp"/>
-          <!--  android:drawableLeft="@drawable/ic_mail"-->
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_mail" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/back"
             android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColor="@color/input_login"
             android:textColorHint="@color/input_login_hint"
             android:paddingLeft="15dp"
-            android:drawablePadding="10dp"/>
-        <!--  android:drawableLeft="@drawable/ic_pass"/-->
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/ic_pass"/>
 
       <!-- Login Button -->
 
@@ -131,5 +131,5 @@
             android:layout_marginBottom="10dp"
             style="@style/FacebookLoginButton"/>
     </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</ScrollView>

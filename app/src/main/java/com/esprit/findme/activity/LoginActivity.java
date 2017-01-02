@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.esprit.findme.R;
-import com.esprit.findme.fragment.LoginFragment;
+import com.esprit.findme.fragments.LoginFragment;
 
 
 /**

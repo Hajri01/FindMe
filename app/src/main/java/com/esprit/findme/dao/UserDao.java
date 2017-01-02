@@ -3,8 +3,6 @@ package com.esprit.findme.dao;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,13 +10,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.esprit.findme.R;
 import com.esprit.findme.activity.LoginActivity;
-import com.esprit.findme.fragment.LoginFragment;
 import com.esprit.findme.main.MainActivity;
 import com.esprit.findme.models.User;
 import com.esprit.findme.utils.AppConfig;
-import com.esprit.findme.utils.AppController;
+import com.esprit.findme.AppController;
 import com.esprit.findme.utils.SessionManager;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
@@ -28,8 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +51,6 @@ public class UserDao {
                              final String number) {
         // Tag used to cancel the request
         String tag_string_req = "req_register";
-
         pDialog = new ProgressDialog(activity);
         pDialog.setCancelable(false);
 
@@ -81,15 +74,11 @@ public class UserDao {
                     JSONObject jObj = new JSONObject(response);
                     boolean error = jObj.getBoolean("error");
                     if (!error) {
-
+                        JSONObject user = jObj.getJSONObject("user");
+                        int id = user.getInt("id");
                         Toast.makeText(activity.getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
-
                         // Launch login activity
-                        activity.getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).addToBackStack(null).commit();
-
-
                     } else {
-
                         // Error occurred in registration. Get the error message
                         String errorMsg = jObj.getString("error_msg");
                         Toast.makeText(activity.getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
@@ -162,6 +151,7 @@ public class UserDao {
                         String created_at = user.getString("created_at");
                         String photo = user.getString("photo");
                         String phone = user.getString("phone");
+                        String position = user.getString("position");
                         // Create login session
 
                         session.setLogin(true);
@@ -171,6 +161,8 @@ public class UserDao {
                         session.setUserName(name);
                         session.setUserPhone(phone);
                         session.setUserPwd(password);
+                        session.setUserPosition(position);
+
 
                         // Launch main activity
                         Intent intent = new Intent(activity, MainActivity.class);
@@ -226,14 +218,14 @@ public class UserDao {
             pDialog.dismiss();
     }
 
-    public void updateUserImage(String email, String url, String name) {
+    public void updateUserImage(String email, String url, int id) {
         try {
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
             new MultipartUploadRequest(activity, uploadId, AppConfig.URL_LOAD_PHOTO)
                     .addFileToUpload(url, "image") //Adding file
-                    .addParameter("name", name) //Adding text parameter to the request
+                    .addParameter("id", String.valueOf(id)) //Adding text parameter to the request
                     .addParameter("email", email) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
                     .startUpload(); //Starting the upload
@@ -290,7 +282,6 @@ public class UserDao {
                 User user = new User(j);
                 if (user.getId() != session.getUserId())
                     listFriends.add(user);
-
             }
 
         } catch (JSONException e) {

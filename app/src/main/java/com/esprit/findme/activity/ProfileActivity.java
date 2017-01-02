@@ -109,8 +109,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == backBtn) {
-            Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-            startActivity(intent);
+            onBackPressed();
         }
         if (view == image) {
             Intent intent = new Intent();
@@ -124,13 +123,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String ph = phone.getText().toString().trim();
             if (!na.isEmpty() && !em.isEmpty() && !ph.isEmpty() && filePath != null) {
                 uploadMultipart();
-                session.getEditor().clear();
-                session.getEditor().commit();
+                /*session.getEditor().clear();
+                session.getEditor().commit();*/
                 // Launching the login activity
-                Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-
             } else {
                 Toast.makeText(this,
                         "Please enter your details!", Toast.LENGTH_LONG)

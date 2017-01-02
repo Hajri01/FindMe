@@ -8,12 +8,20 @@
         android:layout_height="wrap_content">
     <Button
         android:id="@+id/returnBtn"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_height="40dp"
-        android:background="@color/primary"
-        android:text="Back"
+        android:background="@drawable/ic_back"
         android:textColor="@color/white"
         />
+        <TextView
+            android:id="@+id/secondTitre"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textSize="22dp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="80dp"
+            android:gravity="center_vertical"
+            />
 
         <Button
             android:id="@+id/nextBtn"
@@ -24,6 +32,6 @@
             android:textColor="@color/white"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp" />
+            android:layout_marginEnd="18dp" />
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

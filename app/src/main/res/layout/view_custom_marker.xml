@@ -11,6 +11,8 @@
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:contentDescription="@null"
+        android:background="@drawable/green_marker"
         />
+
 
 </FrameLayout>

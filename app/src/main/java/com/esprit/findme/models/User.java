@@ -1,17 +1,16 @@
 package com.esprit.findme.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by TIBH on 14/11/2016.
  */
 
-public class User {
+public class User  {
     private int id;
     private String name;
     private String email;
@@ -19,6 +18,7 @@ public class User {
     private String password;
     private String photo;
     private String position;
+    private Date updated_at;
 
     public User()
     {
@@ -36,9 +36,24 @@ public class User {
     public User(JSONObject j) {
         this.id=j.optInt("id");
         this.name = j.optString("name");
+        this.email=j.optString("email");
         this.photo = j.optString("photo");
         this.position = j.optString("position");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            this.updated_at= sdf.parse(j.optString("updated_at"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    public Date getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Date updated_at) {
+        this.updated_at = updated_at;
     }
 
     public int getId() {

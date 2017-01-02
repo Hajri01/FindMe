@@ -3,7 +3,7 @@ package com.esprit.findme.utils;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
@@ -11,14 +11,12 @@ import java.util.ArrayList;
  * Created by Med-Amine on 12/11/2016.
  */
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter{
 
     ArrayList<Fragment> fragments = new ArrayList<>();
-   // ArrayList<String> tabTitles = new ArrayList<>();
 
     public void addFragments(Fragment fragment){
         this.fragments.add(fragment);
-       // this.tabTitles.add(title);
     }
 
     public ViewPagerAdapter(FragmentManager fm) {

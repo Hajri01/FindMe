@@ -1,24 +1,24 @@
 package com.esprit.findme.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,11 +31,12 @@ import com.esprit.findme.activity.MapsActivity;
 import com.esprit.findme.activity.PostActivity;
 import com.esprit.findme.activity.ProfileActivity;
 import com.esprit.findme.dao.CircleDAO;
-import com.esprit.findme.fragment.ChatFragment;
-import com.esprit.findme.fragment.HomeFragment;
+import com.esprit.findme.fragments.ChatFragment;
+import com.esprit.findme.fragments.HomeFragment;
 import com.esprit.findme.R;
-import com.esprit.findme.fragment.FriendsFragment;
+import com.esprit.findme.fragments.FriendsFragment;
 import com.esprit.findme.models.Circle;
+import com.esprit.findme.services.RefreshService;
 import com.esprit.findme.utils.AppConfig;
 import com.esprit.findme.utils.SessionManager;
 import com.esprit.findme.utils.ViewPagerAdapter;
@@ -86,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
         circlesArray = new String[]{};
         session = new SessionManager(getApplicationContext());
 
+
         //fab menu settings
         fab_btn = (FloatingActionButton) findViewById(R.id.fab_post);
-
 
         //initialisation
         AllFloatingButtonActions(0);
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -118,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //circlesArray = circles.toArray(circlesArray);
 
         Volley.newRequestQueue(this).add(new StringRequest(Request.Method.GET, AppConfig.URL_GET_CIRCLES + "?user_id=" + session.getUserId(),
                 new Response.Listener<String>() {
@@ -126,26 +127,23 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response != null) {
                             circleDao.getAllCircle(circles, response);
+                            //Toast.makeText(getApplicationContext(),""+new Date(), Toast.LENGTH_LONG).show();
                             circlesArray = new String[circles.size()];
                             for (int k = 0; k < circles.size(); k++) {
                                 circlesArray[k] = circles.get(k).getTitle();
                             }
-                            adapter = new ArrayAdapter<String>
-                                    (MainActivity.this, android.R.layout.simple_spinner_item, circlesArray);
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down view
+                            adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.simple_spinner_item, circlesArray);
+                            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(adapter);
                             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                                     ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                                     ((TextView) adapterView.getChildAt(0)).setTextSize(18);
-
-
                                     session.setCircleCode(circles.get(i).getCode());
                                     session.setCircleId(circles.get(i).getId());
-
-
+                                    Intent serviceIntent = new Intent(MainActivity.this, RefreshService.class);
+                                    startService(serviceIntent);
                                 }
 
                                 @Override
@@ -264,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    public void setupViewPager(ViewPager viewPager) {
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(new HomeFragment());
@@ -273,5 +271,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

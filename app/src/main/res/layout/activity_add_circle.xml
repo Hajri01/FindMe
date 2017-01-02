@@ -37,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
+                android:inputType="number"
                 android:hint="Choose a Code For Your Circle"
                 android:textColor="@color/input_register"
                 android:textColorHint="@color/input_register_hint" />
@@ -60,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="create"
-                android:background="@color/accent"
+                android:textSize="20sp"
+                android:background="@drawable/button_back"
                 android:textColor="@color/white" />
 
         </LinearLayout>

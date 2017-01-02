@@ -28,19 +28,4 @@ public class CircleDAO {
             e.printStackTrace();
         }
     }
-    public void getCircle(List<Circle> circles, String jsonResponse) {
-
-        try {
-            JSONObject jo = new JSONObject(jsonResponse);
-            JSONArray array = jo.getJSONArray("circles");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject j = array.getJSONObject(i);
-                Circle circle = new Circle(j);
-                circles.add(circle);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 }
