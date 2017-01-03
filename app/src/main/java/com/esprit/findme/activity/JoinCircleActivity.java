@@ -59,6 +59,7 @@ public class JoinCircleActivity extends AppCompatActivity {
                             JoinCircleActivity.this,
                             MainActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)

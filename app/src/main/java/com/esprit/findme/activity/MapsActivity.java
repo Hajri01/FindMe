@@ -20,6 +20,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -56,6 +57,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,6 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Boolean zoom = false;
     private CountDownTimer countDownTimer;
     private List<Marker> mMarkers ;
+    private Date now;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -100,8 +104,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         friendList = new ArrayList<>();
         mMarkers = new ArrayList<Marker>();
         mLastLocation = new Location("");
+        now = new Date(System.currentTimeMillis());
         getUserS();
-        countDownTimer=new CountDownTimer(30000,10000) {
+        countDownTimer=new CountDownTimer(60000,10000) {
             @Override
             public void onTick(long l) {
 
@@ -112,6 +117,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (Marker marker: mMarkers) {
                     marker.remove();
                 }
+                now = new Date(System.currentTimeMillis());
                 mMarkers.clear();
                 getUserS();
                 setLocations();
@@ -213,14 +219,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
         String MyPosition = mLastLocation.getLatitude() + "," + mLastLocation.getLongitude();
         userDao.updateUserPosition(session.getUserId(), MyPosition);
-        Calendar myCalendar = Calendar.getInstance();
-        myCalendar.setTime(new Date());
-        long actual = myCalendar.getTimeInMillis();
         for (int i = 0; i < friendList.size(); i++) {
-            Calendar userCalendar = Calendar.getInstance();
-            userCalendar.setTime(friendList.get(i).getUpdated_at());
-            long update = userCalendar.getTimeInMillis();
-            if ((actual - update) <= 300000) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date parsed=new Date();
+            try {
+                parsed = sdf.parse(sdf.format(friendList.get(i).getUpdated_at()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            int resultat=parsed.compareTo(now);
+            if (resultat==1) {
                 String input = friendList.get(i).getPosition().toString();
                 int index = input.indexOf(",");
                 String lat = input.substring(0, index).trim();

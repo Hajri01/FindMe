@@ -87,7 +87,6 @@ public class LoginFragment extends Fragment {
                 Profile profile = Profile.getCurrentProfile();
                 inputEmail.setText(profile.getName());
                 inputPassword.setText("hello");
-                Log.e("fbbbbbb","ffffbbbbb");
             }
 
             @Override
@@ -98,7 +97,6 @@ public class LoginFragment extends Fragment {
             @Override
             public void onError(FacebookException error) {
                 inputEmail.setText("error");
-                Log.e("fbbbbbb",error.getMessage());
             }
         });
 

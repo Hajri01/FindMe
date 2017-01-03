@@ -105,9 +105,8 @@ public class AddCircleActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-
-                        String errorMsg = jObj.getString("error_msg");
-                        Toast.makeText(getApplicationContext(), errorMsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "This code does exist please try another one for your circle security",
+                                Toast.LENGTH_LONG).show();
 
                     }
                 } catch (JSONException e) {

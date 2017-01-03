@@ -27,11 +27,21 @@
         android:layout_marginTop="60dp"
         android:orientation="vertical"
         >
+        <Button
+            android:id="@+id/buttonChoose"
+            android:textColor="@color/white"
+            android:background="@color/primary"
+            android:text="Choose a picture"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scrollbarStyle="insideOverlay">
+
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
@@ -40,14 +50,7 @@
             />
 
         </ScrollView>
-        <Button
-            android:id="@+id/buttonChoose"
-            android:background="@drawable/ic_add_photo"
-            android:textColor="@color/white"
-            android:layout_gravity="end"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            />
+
 
             <ImageView
                 android:layout_marginTop="5dp"

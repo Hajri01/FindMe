@@ -36,6 +36,7 @@ import com.esprit.findme.fragments.HomeFragment;
 import com.esprit.findme.R;
 import com.esprit.findme.fragments.FriendsFragment;
 import com.esprit.findme.models.Circle;
+import com.esprit.findme.services.GpsService;
 import com.esprit.findme.services.RefreshService;
 import com.esprit.findme.utils.AppConfig;
 import com.esprit.findme.utils.SessionManager;
@@ -86,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         spinner = (Spinner) findViewById(R.id.spinner);
         circlesArray = new String[]{};
         session = new SessionManager(getApplicationContext());
+        Intent serviceIntent = new Intent(MainActivity.this, GpsService.class);
+        startService(serviceIntent);
 
 
         //fab menu settings
@@ -274,6 +277,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
 }

@@ -199,7 +199,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 addPost();
                 Intent serviceIntent = new Intent(PostActivity.this, RefreshService.class);
                 startService(serviceIntent);
-                //onBackPressed();
+                onBackPressed();
             } else {
                 Toast.makeText(this, "Your friends need at least one picture ",
                         Toast.LENGTH_LONG).show();

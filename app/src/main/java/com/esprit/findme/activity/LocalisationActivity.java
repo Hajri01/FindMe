@@ -222,7 +222,7 @@ public class LocalisationActivity extends FragmentActivity implements OnMapReady
             Calendar userCalendar = Calendar.getInstance();
             userCalendar.setTime(friendList.get(i).getUpdated_at());
             long update = userCalendar.getTimeInMillis();
-            if ((actual - update) <= 300000) {
+            if ((actual - update) <= 300000000) {
                 String input = friendList.get(i).getPosition().toString();
                 int index = input.indexOf(",");
                 String lat = input.substring(0, index).trim();
