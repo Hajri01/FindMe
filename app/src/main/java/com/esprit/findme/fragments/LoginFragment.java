@@ -23,11 +23,15 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 
 /**
@@ -44,6 +48,8 @@ public class LoginFragment extends Fragment {
     private SessionManager session;
     private UserDao userDao;
     private CallbackManager callbackManager;
+    private String email;
+    private LoginManager loginManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
@@ -84,14 +90,35 @@ public class LoginFragment extends Fragment {
         loginfacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Profile profile = Profile.getCurrentProfile();
-                inputEmail.setText(profile.getName());
-                inputPassword.setText("hello");
+
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        // Get facebook data from login
+                        Bundle bFacebookData = getFacebookData(object);
+                        Bundle send =new Bundle();
+                        Fragment fragment=new FacebookFragment();
+                        send.putString("email",bFacebookData.getString("email"));
+                        send.putString("name",bFacebookData.getString("first_name")+" "+bFacebookData.getString("last_name"));
+                        send.putString("profile_pic",bFacebookData.getString("profile_pic"));
+                        fragment.setArguments(send);
+                        LoginManager.getInstance().logOut();
+                        getFragmentManager().beginTransaction().replace(R.id.container,fragment).addToBackStack(null).commit();
+
+
+                    }
+                });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override
             public void onCancel() {
                 inputEmail.setText("cancel");
+
             }
 
             @Override
@@ -99,6 +126,8 @@ public class LoginFragment extends Fragment {
                 inputEmail.setText("error");
             }
         });
+
+
 
 
         // Login button Click Event
@@ -130,11 +159,52 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+    private Bundle getFacebookData(JSONObject object) {
+
+        try {
+            Bundle bundle = new Bundle();
+            String id = object.getString("id");
+
+            URL profile_pic = null;
+            try {
+                profile_pic = new URL("https://graph.facebook.com/" + id + "/picture?width=200&height=150");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            Log.i("profile_pic", profile_pic + "");
+            bundle.putString("profile_pic", profile_pic.toString());
+
+            bundle.putString("idFacebook", id);
+            if (object.has("first_name"))
+                bundle.putString("first_name", object.getString("first_name"));
+            if (object.has("last_name"))
+                bundle.putString("last_name", object.getString("last_name"));
+            if (object.has("email"))
+                bundle.putString("email", object.getString("email"));
+            if (object.has("gender"))
+                bundle.putString("gender", object.getString("gender"));
+            if (object.has("birthday"))
+                bundle.putString("birthday", object.getString("birthday"));
+            if (object.has("location"))
+                bundle.putString("location", object.getJSONObject("location").getString("name"));
+
+            return bundle;
+        }
+        catch(JSONException e) {
+        }
+        return null;
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private String message(Profile profile) {
+
+        return profile.getLastName();
     }
 
 

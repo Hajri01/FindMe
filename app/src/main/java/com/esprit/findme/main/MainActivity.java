@@ -38,6 +38,7 @@ import com.esprit.findme.fragments.FriendsFragment;
 import com.esprit.findme.models.Circle;
 import com.esprit.findme.services.GpsService;
 import com.esprit.findme.services.RefreshService;
+import com.esprit.findme.sqlite.CircleBDD;
 import com.esprit.findme.utils.AppConfig;
 import com.esprit.findme.utils.SessionManager;
 import com.esprit.findme.utils.ViewPagerAdapter;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Circle> circles;
     private CircleDAO circleDao;
     private Spinner spinner;
+    private CircleBDD circleBDD;
     String[] circlesArray;
     ArrayAdapter<String> adapter;
     private int[] tabIcons = {
@@ -70,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
     };
     private String[] tabTitle = {
             " Home",
-            "Friends",
-            "Chat"
+            "Friends"
+
     };
 
 
@@ -130,11 +132,25 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         if (response != null) {
                             circleDao.getAllCircle(circles, response);
-                            //Toast.makeText(getApplicationContext(),""+new Date(), Toast.LENGTH_LONG).show();
-                            circlesArray = new String[circles.size()];
-                            for (int k = 0; k < circles.size(); k++) {
-                                circlesArray[k] = circles.get(k).getTitle();
+                            circleBDD = new CircleBDD(getApplicationContext());
+                            circleBDD.open();
+                            if (circles.isEmpty()){
+                                circles=circleBDD.selectAll();
                             }
+                            else {
+                                circlesArray = new String[circles.size()];
+                                for (int k = 0; k < circles.size(); k++) {
+                                    circlesArray[k] = circles.get(k).getTitle();
+                                    Circle circle=new Circle();
+                                    circle.setId(circles.get(k).getId());
+                                    circle.setTitle(circles.get(k).getTitle());
+                                    circle.setCode(circles.get(k).getCode());
+                                    circle.setDescription(circles.get(k).getDescription());
+                                    circle.setCreator(circles.get(k).getCreator());
+                                    circleBDD.insert(circle);
+                                }
+                            }
+                            circleBDD.close();
                             adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.simple_spinner_item, circlesArray);
                             adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
                             spinner.setAdapter(adapter);
@@ -270,7 +286,6 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragments(new HomeFragment());
         viewPagerAdapter.addFragments(new FriendsFragment());
-        viewPagerAdapter.addFragments(new ChatFragment());
         viewPager.setAdapter(viewPagerAdapter);
     }
 

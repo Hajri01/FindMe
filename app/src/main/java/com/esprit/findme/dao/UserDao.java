@@ -107,7 +107,6 @@ public class UserDao {
                 params.put("email", email);
                 params.put("password", password);
                 params.put("number", number);
-
                 return params;
             }
 
@@ -231,6 +230,7 @@ public class UserDao {
                     .startUpload(); //Starting the upload
 
         } catch (Exception exc) {
+            Log.e(TAG, "upload Error: " + exc.getMessage());
             Toast.makeText(activity, exc.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -314,6 +314,42 @@ public class UserDao {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("id", String.valueOf(id));
                 params.put("password", pwd);
+                return params;
+            }
+
+        };
+
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
+    }
+
+    public void updateUserPhoto(final String email, final String photo) {
+
+        String tag_string_req = "req_position";
+
+        StringRequest strReq = new StringRequest(Request.Method.POST,
+                AppConfig.URL_UPDATE_PHOTO, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting params to register url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("email", email);
+                params.put("photo", photo);
                 return params;
             }
 

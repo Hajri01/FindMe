@@ -8,8 +8,8 @@
         android:layout_height="wrap_content">
     <Button
         android:id="@+id/returnBtn"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:background="@drawable/ic_back"
         android:textColor="@color/white"
         />

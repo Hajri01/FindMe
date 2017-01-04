@@ -31,19 +31,12 @@ public class FacebookFragment extends Fragment {
     private UserDao userDao;
     private String name;
     private String email;
-    private  String number;
+    private  String number="";
     private String photo;
 
 
     public FacebookFragment(){
 
-
-    }
-    public FacebookFragment(int id ,String email ,String number,String photo){
-        this.name=name;
-        this.email=email;
-        this.number=number;
-        this.photo=photo;
 
     }
     @Override
@@ -61,6 +54,13 @@ public class FacebookFragment extends Fragment {
         inputConfirmPassword=(EditText) view.findViewById(R.id.confirmF);
         btnRegister = (Button) view.findViewById(R.id.btnRegister);
         userDao=new UserDao(getActivity());
+        Bundle bundle=this.getArguments();
+        if (bundle!=null)
+        {
+            email=bundle.getString("email");
+            photo=bundle.getString("profile_pic");
+            name=bundle.getString("name");
+        }
 
         // Progress dialog
         pDialog = new ProgressDialog(getActivity());
@@ -117,7 +117,8 @@ public class FacebookFragment extends Fragment {
                 String confirm = inputConfirmPassword.getText().toString().trim();
                 if (!confirm.isEmpty() && !password.isEmpty()) {
                     userDao.registerUser(name,email,password,number);
-                   userDao.updateUserImage(email,photo,session.getUserId());
+                    userDao.updateUserPhoto(email,photo);
+                    getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).addToBackStack(null).commit();
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),
                             "Please enter your details!", Toast.LENGTH_LONG)

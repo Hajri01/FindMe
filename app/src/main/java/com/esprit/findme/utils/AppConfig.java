@@ -16,6 +16,7 @@ public class AppConfig {
     public static String URL_GET_USERS = "https://"+IP+"/findme/getUserByCircle.php";
     public static String URL_GET_USER = "https://"+IP+"/findme/getUser.php";
     public static String URL_UPDATE_POSITION = "https://"+IP+"/findme/updateUserPosition.php";
+    public static String URL_UPDATE_PHOTO = "https://"+IP+"/findme/updateUserPhoto.php";
     public static String URL_EDIT_USER = "https://"+IP+"/findme/users/editprofile.php";
     public static String URL_EDIT_PWD="https://"+IP+"/findme/users/editpass.php";
 

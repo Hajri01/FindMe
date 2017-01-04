@@ -188,7 +188,7 @@ public class RegisterFragment extends Fragment {
                 String path = getPath(filePath);
                 if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
                     userDao.registerUser(name,email,password,number);
-                    userDao.updateUserImage(email,path,random.nextInt());
+                    //userDao.updateUserImage(email,path,random.nextInt());
                     getFragmentManager().beginTransaction().replace(R.id.container, new LoginFragment()).addToBackStack(null).commit();
 
                 } else {
